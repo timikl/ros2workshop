@@ -14,7 +14,7 @@ docker run \
   --tmpfs /tmp \
   --device /dev/dri/ \
   --name ros2workshop \
-  -e ROS_DISTRO=humble -e DISPLAY=$DISPLAY \
+  -e ROS_DISTRO=jazzy -e DISPLAY=$DISPLAY \
   -e QT_X11_NO_MITSHM=1 \
   -v /tmp/.X11-unix/:/tmp/.X11-unix:rw \
   -e XAUTHORITY=$xauth \

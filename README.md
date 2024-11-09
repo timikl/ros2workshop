@@ -19,9 +19,9 @@ If a container already exists OR another terminal needs to be opened in same con
 
 # Things covered
 **Workshop 1**
- - [Configuring the environment](https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools/Configuring-ROS2-Environment.html)
- - [Turtlesim](https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools/Introducing-Turtlesim/Introducing-Turtlesim.html)
- - [Understanding Nodes, Topics, Services, Parameters, RQT](https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools.html)
+ - [Configuring the environment](https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Configuring-ROS2-Environment.html)
+ - [Turtlesim](https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Introducing-Turtlesim/Introducing-Turtlesim.html)
+ - [Understanding Nodes, Topics, Services, Parameters, RQT](https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools.html)
 
 **Workshop 2**
  - [Configuring workspaces and packages](workspaces_packages.md)
@@ -34,7 +34,7 @@ If a container already exists OR another terminal needs to be opened in same con
 # Resources
 Docker install https://docs.docker.com/engine/install/
 
-ROS2 on Docker https://docs.ros.org/en/humble/How-To-Guides/Run-2-nodes-in-single-or-separate-docker-containers.html
+ROS2 on Docker https://docs.ros.org/en/jazzy/How-To-Guides/Run-2-nodes-in-single-or-separate-docker-containers.html
 
 
 # Additional debug info

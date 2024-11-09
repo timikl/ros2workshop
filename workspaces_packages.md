@@ -74,10 +74,10 @@ and then
 
 replace `first_package` with `fake_package` and `realsense2_camera` and see what happens. Compare with `apt install`.
 
-Lets overlay turtlesim package (example from [official docs](https://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html))
+Lets overlay turtlesim package (example from [official docs](https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html))
 
 	cd ~/ros2workshop_ws/src/
-	git clone https://github.com/ros/ros_tutorials.git -b humble
+	git clone https://github.com/ros/ros_tutorials.git -b jazzy
 	nano ~/ros2workshop_ws/src/ros_tutorials/turtlesim/src/turtle_frame.cpp
 
 find and replace with 

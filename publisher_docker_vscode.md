@@ -16,7 +16,7 @@ In VSCode install extension [Dev Containers](https://marketplace.visualstudio.co
 
 Download a minimal example node and add it to package.
 
-	wget https://raw.githubusercontent.com/ros2/examples/humble/rclpy/topics/minimal_publisher/examples_rclpy_minimal_publisher/publisher_member_function.py
+	wget https://raw.githubusercontent.com/ros2/examples/jazzy/rclpy/topics/minimal_publisher/examples_rclpy_minimal_publisher/publisher_member_function.py
 
 Then compile the workspace and run the node
 
