@@ -31,6 +31,16 @@ If a container already exists OR another terminal needs to be opened in same con
  - [Writing a Python Publisher with VSCode and Docker](publisher_docker_vscode.md)
 
 
+# Simulated robot
+
+Run with 
+
+    ros2 launch myrobot_gazebo robot.launch.py
+
+And controll with 
+
+    ros2 run teleop_twist_keyboard teleop_twist_keyboard
+
 # Resources
 Docker install https://docs.docker.com/engine/install/
 

@@ -121,7 +121,7 @@
     </link>
 
     <!--  Base footprint -->
-    <link name="base_footprint"/ode to publish th>
+    <link name="base_footprint"/>
 
     <!-- Base footprint joint -->
     <joint name="base_footprint_joint" type="fixed">
