@@ -1,0 +1,5 @@
+name: myrobot
+body:
+  length: 0.45
+  width: 0.35
+  height: 0.15
