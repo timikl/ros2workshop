@@ -13,6 +13,9 @@ RUN apt-get install -y python3-pip
 # Installations for workspace manipulation
 RUN apt-get install python3-vcstool python3-colcon-common-extensions git wget -y
 
+# Ssh client allows git management from inside container
+RUN apt-get install openssh-client -y
+
 # Ease of use stuff
 RUN apt-get install -y nano bash-completion
 RUN echo 'source /opt/ros/jazzy/setup.bash' >> /root/.bashrc
