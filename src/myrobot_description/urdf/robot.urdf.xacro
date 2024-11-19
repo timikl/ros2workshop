@@ -5,6 +5,11 @@
     <xacro:include filename="$(find myrobot_description)/urdf/include/inertial.xacro" />
     <!-- <xacro:property name="robot_yaml" value="$(find myrobot_description)/config/robot.yaml" />  
     <xacro:property name="robot" value="${xacro.load_yaml(robot_yaml)}"/> -->
+    
+    <xacro:include filename="$(find myrobot_description)/urdf/include/sensors_macros.xacro" />
+    <xacro:property name="sensors_yaml" value="$(find myrobot_description)/config/sensors.yaml" />  
+    <xacro:property name="sensors" value="${xacro.load_yaml(sensors_yaml)}"/>
+
 
     <!-- Robot Parameters -->
     <xacro:property name="body_length" value="0.45"/>
@@ -200,5 +205,10 @@
             <joint_name>left_wheel_joint</joint_name>
         </plugin>
     </gazebo>
+
+    <xacro:camera camera="${sensors['camera']}" robot="myrobot">
+        <origin xyz="${sensors['camera']['x']} ${sensors['camera']['y']} ${sensors['camera']['z']}" 
+            rpy="${sensors['camera']['roll']} ${sensors['camera']['pitch']} ${sensors['camera']['yaw']}" />
+    </xacro:camera>
 
 </robot>

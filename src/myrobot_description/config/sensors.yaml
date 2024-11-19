@@ -1,0 +1,24 @@
+camera:
+  image_topic: camera/image_raw
+  info_topic: camera/camera_info
+  enable: true
+  name: camera
+  parent_link: base_link
+  x: 0
+  y: 0
+  z: 0.4
+  roll: 0
+  pitch: 0
+  yaw: 0
+  radius: 0.05
+  length: 0.05
+  update_rate: 50
+  horizontal_fov: 1.57
+  width: 720
+  height: 480
+  format: R8G8B8
+  cam_view_visualize: true
+  mesh: ''  # TODO add mesh
+
+lidar:
+  enable: true
