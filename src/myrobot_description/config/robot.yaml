@@ -3,3 +3,9 @@ body:
   length: 0.45
   width: 0.35
   height: 0.15
+
+wheel:
+  radius: 0.1
+  width: 0.05
+  mass: 0.5
+  offset_y: 0.2

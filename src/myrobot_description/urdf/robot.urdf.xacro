@@ -3,6 +3,7 @@
 <robot name="differential_drive_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <xacro:include filename="$(find myrobot_description)/urdf/include/inertial.xacro" />
+    <!-- <xacro:include filename="$(find myrobot_description)/urdf/include/common_macros.xacro" /> -->
     <!-- <xacro:property name="robot_yaml" value="$(find myrobot_description)/config/robot.yaml" />  
     <xacro:property name="robot" value="${xacro.load_yaml(robot_yaml)}"/> -->
     
