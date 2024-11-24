@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+    <gazebo>
+        <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors"/>
+    </gazebo>
+
     <!-- Camera -->
-    <xacro:macro name="camera" params=" *joint_origin camera robot">
+    <xacro:macro name="camera" params="*joint_origin camera robot">
         <link name="${camera['name']}_link">
             <collision>
                 <origin xyz="0 0 0" rpy="0 ${pi/2} 0"/>
@@ -41,7 +45,7 @@
             <sensor type="camera" name="${camera['name']}">
                 <topic>${camera['image_topic']}</topic>
                 <update_rate>${camera['update_rate']}</update_rate>
-                <visualize>${camera['cam_view_visualize']}</visualize>
+                <gz_frame_id>${camera['frame_name']}</gz_frame_id>
                 <camera>
                     <horizontal_fov>${camera['horizontal_fov']}</horizontal_fov>
                     <image>
@@ -63,17 +67,78 @@
                     </noise>
                     <camera_info_topic>${camera['info_topic']}</camera_info_topic>
                 </camera>
-                <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
-                    <always_on>true</always_on>
-                    <visualize>true</visualize>
-                    <update_rate>30</update_rate>
-                    <gz_frame_id>camera_rgb_frame</gz_frame_id>
-                </plugin>
+                <visualize>true</visualize>
             </sensor>
         </gazebo>
-    
     </xacro:macro>
 
     <!-- Lidar -->
-    
+    <xacro:macro name="lidar" params="*joint_origin lidar robot">
+        <link name="${lidar['name']}_link">
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <cylinder radius="${lidar['radius']}" length="${lidar['length']}"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <cylinder radius="${lidar['radius']}" length="${lidar['length']}"/>
+                <!-- TODO add mesh insertion capabilities -->
+                </geometry>
+            </visual>
+
+            <inertial>
+                <mass value="1e-5" />
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+            </inertial>
+        </link>
+
+        <joint name="${lidar['name']}_joint" type="fixed">
+            <axis xyz="0 1 0" />
+            <xacro:insert_block name="joint_origin" />
+            <parent link="${lidar['parent_link']}"/>
+            <child link="${lidar['name']}_link"/>
+        </joint>
+
+        <gazebo reference="${lidar['name']}_link">
+            <material>Gazebo/Blue</material>
+        </gazebo>
+
+        <gazebo reference="${lidar['name']}_link">
+            <sensor name='lidar' type='gpu_lidar'>
+                <always_on>true</always_on>
+                <visualize>true</visualize>
+                <pose>0 0 0 0 0 0</pose>
+                <topic>${lidar['topic']}</topic>
+                <update_rate>${lidar['update_rate']}</update_rate>
+                <gz_frame_id>lidar_link</gz_frame_id>
+                <ray>
+                    <scan>
+                        <horizontal>
+                            <samples>${lidar['samples']}</samples>
+                            <resolution>${lidar['resolution']}</resolution>
+                            <min_angle>${lidar['min_angle']}</min_angle>
+                            <max_angle>${lidar['max_angle']}</max_angle>
+                        </horizontal>
+                        <vertical>
+                            <samples>1</samples>
+                            <resolution>0.01</resolution>
+                            <min_angle>0</min_angle>
+                            <max_angle>0</max_angle>
+                        </vertical>
+                    </scan>
+                    <range>
+                        <min>${lidar['min_range']}</min>
+                        <max>${lidar['max_range']}</max>
+                        <resolution>0.01</resolution>
+                    </range>
+                </ray>
+            </sensor>
+        </gazebo>
+    </xacro:macro>
+
 </robot>

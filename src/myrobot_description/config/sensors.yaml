@@ -1,9 +1,10 @@
 camera:
-  image_topic: camera/image_raw
-  info_topic: camera/camera_info
   enable: true
   name: camera
   parent_link: base_link
+  image_topic: camera/image_raw
+  info_topic: camera/camera_info
+  frame_name: camera_frame
   x: 0
   y: 0
   z: 0.4
@@ -12,13 +13,30 @@ camera:
   yaw: 0
   radius: 0.05
   length: 0.05
-  update_rate: 50
+  update_rate: 40
   horizontal_fov: 1.57
   width: 720
   height: 480
   format: R8G8B8
-  cam_view_visualize: true
-  mesh: ''  # TODO add mesh
 
 lidar:
   enable: true
+  name: lidar
+  frame_name: lidar_link
+  parent_link: base_link
+  topic: scan
+  x: 0.5
+  y: 0
+  z: 0
+  roll: 0
+  pitch: 0
+  yaw: 0
+  radius: 0.05
+  length: 0.1
+  update_rate: 10
+  samples: 640
+  resolution: 1
+  min_angle: -1.396263
+  max_angle: 1.396263
+  min_range: 0.08
+  max_range: 10.0
