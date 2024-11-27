@@ -20,7 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'topic_republisher = python_examples.topic_republisher:main'
+            'topic_republisher = python_examples.topic_republisher:main',
+            'scan_subscriber = python_examples.scan_subscriber:main'
         ],
     },
 )
