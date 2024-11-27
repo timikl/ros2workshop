@@ -3,13 +3,6 @@ FROM osrf/ros:jazzy-desktop-full
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y python3-pip
 
-# Install Gazebo Harmonic (by defauld by invoking install ros_jazzy_ros_gz, Gazebo Fortress is going to get installed - which has troubles with package naming - Ignition)
-# RUN apt-get install lsb-release wget gnupg -y
-# RUN wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
-# RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
-# RUN apt-get update -y
-# RUN apt-get install gz-harmonic -y
-
 # Installations for workspace manipulation
 RUN apt-get install python3-vcstool python3-colcon-common-extensions git wget -y
 
@@ -22,7 +15,8 @@ RUN echo 'source /opt/ros/jazzy/setup.bash' >> /root/.bashrc
 RUN echo 'alias s="source install/local_setup.bash"' >> /root/.bashrc
 # Colcon builds with symlik (so recompile is not needed for python or config changes) and for release
 RUN echo 'alias c="colcon build --symlink-install --cmake-args=-DCMAKE_BUILD_TYPE=Release"' >> /root/.bashrc
-
+# Suppress colcon specific warning for python package compilation as suggested in https://robotics.stackexchange.com/questions/24230/setuptoolsdeprecationwarning-in-ros2-humble
+RUN echo 'PYTHONWARNINGS="ignore:easy_install command is deprecated,ignore:setup.py install is deprecated"; export PYTHONWARNINGS' >> /root/.bashrc
 # Select which turtlebot to spawn, see other options in https://github.com/ROBOTIS-GIT/turtlebot3_simulations/tree/master/turtlebot3_gazebo/models
 ENV TURTLEBOT3_MODEL 'burger'
 
