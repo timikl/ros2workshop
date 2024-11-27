@@ -13,9 +13,6 @@ RUN apt-get install -y python3-pip
 # Installations for workspace manipulation
 RUN apt-get install python3-vcstool python3-colcon-common-extensions git wget -y
 
-# Additional ROS stuff
-RUN apt-get install ros-jazzy-rqt-tf-tree -y
-
 # Ssh client allows git management from inside container
 RUN apt-get install openssh-client -y
 
@@ -28,6 +25,9 @@ RUN echo 'alias c="colcon build --symlink-install --cmake-args=-DCMAKE_BUILD_TYP
 
 # Select which turtlebot to spawn, see other options in https://github.com/ROBOTIS-GIT/turtlebot3_simulations/tree/master/turtlebot3_gazebo/models
 ENV TURTLEBOT3_MODEL 'burger'
+
+# Additional ROS stuff
+# RUN apt-get install ros-jazzy-rqt-tf-tree -y
 
 # Force color prompt for sudo user
 RUN sed -i -e 's/#force_color_prompt=yes/force_color_prompt=yes/g' /root/.bashrc
