@@ -212,4 +212,9 @@
             rpy="${sensors['camera']['roll']} ${sensors['camera']['pitch']} ${sensors['camera']['yaw']}" />
     </xacro:camera>
 
+    <xacro:lidar lidar="${sensors['lidar']}" robot="myrobot">
+        <origin xyz="${sensors['lidar']['x']} ${sensors['lidar']['y']} ${sensors['lidar']['z']}" 
+            rpy="${sensors['lidar']['roll']} ${sensors['lidar']['pitch']} ${sensors['lidar']['yaw']}" />
+    </xacro:lidar>
+
 </robot>

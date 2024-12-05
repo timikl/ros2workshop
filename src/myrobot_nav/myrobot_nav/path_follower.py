@@ -1,55 +1,63 @@
 import rclpy
 from rclpy.node import Node
-import rclpy.signals
+from std_msgs.msg import String
 from geometry_msgs.msg import Twist, Pose
 from nav_msgs.msg import Odometry
-from visualization_msgs.msg import Marker
 from geometry_msgs.msg import Point
+from visualization_msgs.msg import Marker
 import math
 import tf_transformations
 
-
 class PathFollower(Node):
-    
+
     def __init__(self):
-        super().__init__('path_follower_node')
-        self.cmd_vel_pub = self.create_publisher(Twist, '/cmd_vel', 10)
+        super().__init__('path_follower')
         self.marker_pub = self.create_publisher(Marker, 'line_marker', 10)
-        self.pose_sub = self.create_subscription(Odometry, '/odom', self.pose_callback, 10)
-        self.waypoints = [[0.0, 0.1], [2.0, 2.0], [3.0, -1.0]]
-        self.current_waypoint_index = 0
+        self.waypoints = [[1.0, 3.0], [3.0, 4.0], [3.0, 5.0]]
+        self.next_waypoint = 0
+        self.radius = 0.2
+        self.move_publisher = self.create_publisher(Twist, '/cmd_vel', 10)
+        self.odom_subscriber = self.create_subscription(Odometry, '/odom', self.sub_callback, 10)
         self.current_pose = Pose()
-        self.timer = self.create_timer(0.1, self.spin_once) 
+        self.timer = self.create_timer(2, self.distance_calculate)
         
-    def pose_callback(self, received_msg:Odometry):
+    def sub_callback(self, received_msg:Odometry):
+        #self.get_logger().info('Publishing: x: {} y: {} z: {}'.format(received_msg.pose.pose.position.x, received_msg.pose.pose.position.y, received_msg.pose.pose.position.z))
         self.current_pose = received_msg.pose.pose
     
-    def spin_once(self):
+    def distance_calculate(self):
+        
         self.draw_waypoints()
-        if self.current_waypoint_index < len(self.waypoints):
-            target = self.waypoints[self.current_waypoint_index]
-            distance = math.sqrt((target[0] - self.current_pose.position.x)**2 + (target[1] - self.current_pose.position.y)**2)
+        
+        x = self.current_pose.position.x
+        y = self.current_pose.position.y
+        z = self.current_pose.position.z
+        
+        delta_x = self.waypoints[self.next_waypoint][0] - x
+        delta_y = self.waypoints[self.next_waypoint][1] - y
+        
+        
+        distance = math.sqrt(delta_x**2 + delta_y**2)
+        print(self.get_logger().info('Distance: {}'.format(distance)))
+        
+        if distance < self.radius:
+            if self.next_waypoint == len(self.waypoints)-1:
+                self.next_waypoint = 0
+                
+                
+        roll, pitch, yaw = tf_transformations.euler_from_quaternion([self.current_pose.orientation.x, self.current_pose.orientation.y, self.current_pose.orientation.z, self.current_pose.orientation.w])
+        angle = math.atan2(delta_y, delta_x)
+        theta = angle - yaw  
+        
+        
+        cmd_msg = Twist()
 
-            if distance < 0.1:  # Close enough to the waypoint
-                self.current_waypoint_index += 1
-                return
-            
-            # Calculate steering angle and velocity
-            angle_to_target = math.atan2(target[1] - self.current_pose.position.y, target[0] - self.current_pose.position.x)
-            r, p, y = tf_transformations.euler_from_quaternion([self.current_pose.orientation.x,
-                                                                self.current_pose.orientation.y,
-                                                                self.current_pose.orientation.z,
-                                                                self.current_pose.orientation.w])
-            self.get_logger().info("Angle to target: " + str(angle_to_target) + " angle: " + str(y))
-            twist_msg = Twist()
-            twist_msg.linear.x = 0.25
-            twist_msg.angular.z = angle_to_target - y
-
-            self.cmd_vel_pub.publish(twist_msg)
-        else:
-            self.get_logger().info("Finished path")
-            self.cmd_vel_pub.publish(Twist())
-    
+        # Set a default forward speed
+        cmd_msg.linear.x = 0.1     
+        # Turn
+        cmd_msg.angular.z = theta
+        self.move_publisher.publish(cmd_msg)
+        
     def draw_waypoints(self):
         marker = Marker()
         # Set up the marker properties
@@ -75,13 +83,14 @@ class PathFollower(Node):
         
         self.marker_pub.publish(marker)
 
-
+        
 def main(args=None):
     rclpy.init(args=args)
-    path_follower_node = PathFollower()
-    rclpy.spin(path_follower_node)
-    path_follower_node.destroy_node()
+    path_follower = PathFollower()
+    rclpy.spin(path_follower)
+    path_follower.destroy_node()
     rclpy.shutdown()
+
 
 if __name__ == '__main__':
     main()
